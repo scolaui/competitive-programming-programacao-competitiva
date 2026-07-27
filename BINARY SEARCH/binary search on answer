@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+bool isPoss(vector<long long>& arr, long long k, long long m){
+    long long sum = 0;
+
+    for (int i = 1; i < arr.size(); i++){
+        if (arr[i] > m){
+            sum += arr[i] - m;
+        }
+    }
+    
+    if (sum >= k){
+        return true;
+    } else{
+        return false;
+    }
+}
+
+long long findHeight(vector<long long>& arr, long long n, long long k){
+    long long esq = 0;
+    long long dir = *max_element(begin(arr), end(arr));
+    long long h = 0;
+
+    while(esq <= dir){
+        long long m = (dir+esq)/2;
+    
+        if (isPoss(arr, k, m)){
+            h = m;
+            esq = m+1;
+        } else{
+            dir = m-1;
+        }
+    }
+    return h;
+}
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    long long n, k;
+    cin >> n >> k;
+
+    vector<long long> arr (n+1,0);
+    for (int i = 1; i <= n; i++){
+        cin >> arr[i];
+    }
+
+    cout << findHeight(arr, n, k);
+
+    return 0;
+}
