@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+long long findX(vector<long long>& arr, long long n, long long x){
+    long long first = -1;
+    long long esq = 1;
+    long long dir = n;
+
+    while (esq <= dir){
+        long long h = (esq + dir)/2;
+
+        if (arr[h] > x){
+            first = h;
+            dir = h-1;
+        } else{
+            esq = h+1;
+        }
+    }
+
+    return first;
+}
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    long long n, x;
+    cin >> n >> x;
+
+    vector<long long> arr (n+1,0);
+    for (int i = 1; i <= n; i++){
+        cin >> arr[i];
+    }
+
+    cout << findX(arr, n, x);
+
+    return 0;
+}
