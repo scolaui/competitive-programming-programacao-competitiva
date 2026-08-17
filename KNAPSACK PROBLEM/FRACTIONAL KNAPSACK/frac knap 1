@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Item {
+    double v, p;
+    
+    bool operator<(const Item& other) const{
+        double d1 = v/p;
+        double d2 = other.v/other.p;
+        return d1 > d2;
+    }
+};
+
+double fracKnap(vector<Item>& items, double w){
+    sort(items.begin(), items.end());
+    
+    double totalV = 0.0;
+    
+    for (int i = 0; i < items.size(); i++){
+        if (w <= 0) break;
+        
+        if (items[i].p <= w){
+            totalV += items[i].v;
+            w -= items[i].p;
+        } else{
+            totalV += items[i].v * (w/items[i].p);
+            w = 0;
+        }
+    }
+    
+    return totalV;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    long long n;
+    double w;
+    cin >> n >> w;
+    
+    vector<Item> items(n);
+    for(int i = 0; i < n; i++){
+        cin >> items[i].v >> items[i].p;
+    }
+    
+    cout << fixed << setprecision(4) << fracKnap(items, w);
+    
+    return 0;
+}
