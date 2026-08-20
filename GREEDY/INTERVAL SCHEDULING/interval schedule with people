@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int n, k;
+    cin >> n >> k;
+    
+    vector<pair<int, int>> arr(n);
+    for (int i = 0; i < n; i++){
+        cin >> arr[i].first >> arr[i].second;
+    }
+    
+    sort(arr.begin(), arr.end(), [](auto &a, auto &b){
+        return a.second < b.second;
+    });
+    
+    int totalMovies = 0;
+    
+    /*
+    - set -> container que armazena valores em ordem crescente automaticamente
+    - multiset -> set que permite vários valores
+    */
+    
+    multiset<int> members;
+    for (int i = 0; i < k; i++){
+        members.insert(0); //
+    }
+    
+    for (int i = 0; i < arr.size(); i++){
+        int start = arr[i].first;
+        int end = arr[i].second;
+        
+        //encontra primeiro membro livre 
+        auto firstMember = members.upper_bound(start);
+        
+        if (firstMember != members.begin()){ //se firstMember não for o primeiro, quer dizer que existem elementos antes dele//
+            --firstMember; //pega o primeiro membro que é <= start
+            
+            members.erase(firstMember); //remove o horário antigo
+            members.insert(end); //atualiza com o novo término
+            totalMovies++;
+        }
+    }
+    
+    cout << totalMovies;
+    
+    return 0;
+}
